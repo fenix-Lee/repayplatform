@@ -1,0 +1,43 @@
+app:
+  id: fintech-repayCenter-ms
+
+server:
+  port: 13890
+  servlet:
+    context-path: /fintech-repayCenter-ms
+  tomcat:
+    accept-count: 1000
+    max-threads: 500
+spring:
+  application:
+    name: fintech-repayCenter-ms
+  main:
+    allow-bean-definition-overriding: true
+  freemarker:
+    checkTemplateLocation: false
+  profiles:
+    active: mixed
+management:
+  server:
+    port: 33890
+  endpoints.web.exposure.include: "*"
+  metrics.tags.application: fintech-repayCenter-ms
+  health.rabbit.enabled: false
+  endpoint.health.show-details: "always"
+  health:
+    elasticsearch:
+      enabled: false
+apollo:
+  bootstrap:
+    enabled: true
+    namespaces: application,business,log
+    eagerLoad:
+      enabled: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 40000
+        readTimeout: 40000
+        loggerLevel: full
