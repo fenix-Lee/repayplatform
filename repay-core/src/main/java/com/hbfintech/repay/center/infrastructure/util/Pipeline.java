@@ -1,10 +1,9 @@
 package com.hbfintech.repay.center.infrastructure.util;
 
-import com.hbfintech.repay.center.domain.object.OperationType;
-import com.hbfintech.repay.center.domain.service.strategy.Filter;
-import com.hbfintech.repay.center.domain.service.strategy.Module;
-import com.hbfintech.repay.center.domain.service.strategy.Operation;
-import com.hbfintech.repay.center.domain.service.strategy.Validation;
+import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.repay.service.strategy.Filter;
+import com.hbfintech.repay.center.domain.repay.service.strategy.Module;
+import com.hbfintech.repay.center.domain.repay.service.strategy.Validation;
 
 public interface Pipeline {
 

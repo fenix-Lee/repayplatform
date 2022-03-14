@@ -1,6 +1,6 @@
 package com.hbfintech.repay.center.infrastructure.configuration;
 
-import com.hbfintech.repay.center.domain.entity.RepayFlow;
+import com.hbfintech.repay.center.domain.repay.entity.RepayFlow;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
