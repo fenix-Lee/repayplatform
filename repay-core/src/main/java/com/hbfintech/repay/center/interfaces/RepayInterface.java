@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.application;
+package com.hbfintech.repay.center.interfaces;
 
 import com.hbfintech.repay.center.domain.repay.entity.Car;
 import com.hbfintech.repay.center.domain.repay.entity.CarEntity;
