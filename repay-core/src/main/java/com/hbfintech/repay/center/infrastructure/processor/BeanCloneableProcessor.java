@@ -1,10 +1,9 @@
 package com.hbfintech.repay.center.infrastructure.processor;
 
-import com.hbfintech.repay.center.infrastructure.annotation.Cloneable;
+import com.hbfintech.repay.center.infrastructure.framework.OverrideClone;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -17,10 +16,10 @@ public class BeanCloneableProcessor implements BeanPostProcessor  {
     @Override
     public Object postProcessBeforeInitialization(@NonNull Object bean,
                                                  @NonNull String beanName) throws BeansException {
-        Cloneable cloneable = AnnotationUtils.findAnnotation(bean.getClass(), Cloneable.class);
-        if (ObjectUtils.isEmpty(cloneable))
+        OverrideClone overrideClone = AnnotationUtils.findAnnotation(bean.getClass(), OverrideClone.class);
+        if (ObjectUtils.isEmpty(overrideClone))
             return bean;
-        else if (cloneable.value())
+        else if (overrideClone.value())
             BeanFactory.addCloneableClazz(bean.getClass());
         return bean;
     }

@@ -1,6 +1,6 @@
-package com.hbfintech.repay.center.domain.repay.root;
+package com.hbfintech.repay.center.domain.repay.entity;
 
-import com.hbfintech.repay.center.infrastructure.annotation.Entity;
+import com.hbfintech.repay.center.infrastructure.framework.Entity;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import lombok.Data;;
 

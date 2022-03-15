@@ -1,10 +1,9 @@
 package com.hbfintech.repay.center.infrastructure.processor;
 
-import com.hbfintech.frame.common.exception.ValidationException;
-import com.hbfintech.repay.center.infrastructure.annotation.FieldMapping;
-import com.hbfintech.repay.center.infrastructure.annotation.Mapper;
-import com.hbfintech.repay.center.infrastructure.annotation.Mappers;
-import com.hbfintech.repay.center.infrastructure.annotation.Mappings;
+import com.hbfintech.repay.center.infrastructure.framework.FieldMapping;
+import com.hbfintech.repay.center.infrastructure.framework.Mapper;
+import com.hbfintech.repay.center.infrastructure.framework.Mappers;
+import com.hbfintech.repay.center.infrastructure.framework.Mappings;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

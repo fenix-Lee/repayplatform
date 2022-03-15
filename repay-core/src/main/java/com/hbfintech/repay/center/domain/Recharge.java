@@ -1,7 +1,7 @@
-package com.hbfintech.repay.center.domain.repay.service.strategy;
+package com.hbfintech.repay.center.domain;
 
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
-import com.hbfintech.repay.center.infrastructure.annotation.Indicator;
+import com.hbfintech.repay.center.infrastructure.framework.Indicator;
 
 @Indicator(OperationType.Sequence.RECHARGE)
 public interface Recharge extends Operation {

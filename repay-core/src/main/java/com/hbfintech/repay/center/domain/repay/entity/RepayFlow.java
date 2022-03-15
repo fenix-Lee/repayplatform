@@ -2,17 +2,15 @@ package com.hbfintech.repay.center.domain.repay.entity;
 
 import com.google.common.collect.Maps;
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
-import com.hbfintech.repay.center.domain.repay.root.Contract;
-import com.hbfintech.repay.center.domain.repay.service.Procedure;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultValidationFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechFactory;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Filter;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Module;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Operation;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Validation;
-import com.hbfintech.repay.center.infrastructure.annotation.Cloneable;
-import com.hbfintech.repay.center.infrastructure.annotation.Entity;
+import com.hbfintech.repay.center.domain.Filter;
+import com.hbfintech.repay.center.infrastructure.framework.Module;
+import com.hbfintech.repay.center.domain.Operation;
+import com.hbfintech.repay.center.domain.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.OverrideClone;
+import com.hbfintech.repay.center.infrastructure.framework.Entity;
 import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
@@ -36,7 +34,7 @@ import java.util.Optional;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Data
-@Cloneable
+@OverrideClone
 public class RepayFlow extends Flow<Procedure, Operation>
         implements ObjectConverter<RepayFlow, ProductRepayFlowPO> {
 

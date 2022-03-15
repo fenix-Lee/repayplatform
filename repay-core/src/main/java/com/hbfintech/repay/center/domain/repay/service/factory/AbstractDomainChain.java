@@ -1,8 +1,8 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
 import com.google.common.collect.Maps;
-import com.hbfintech.repay.center.infrastructure.annotation.Chain;
-import com.hbfintech.repay.center.infrastructure.annotation.Chains;
+import com.hbfintech.repay.center.infrastructure.framework.Chain;
+import com.hbfintech.repay.center.infrastructure.framework.Chains;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

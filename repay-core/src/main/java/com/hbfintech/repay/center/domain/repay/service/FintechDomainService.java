@@ -1,6 +1,6 @@
 package com.hbfintech.repay.center.domain.repay.service;
 
-import com.hbfintech.repay.center.domain.repay.root.Contract;
+import com.hbfintech.repay.center.domain.repay.entity.Contract;
 import org.springframework.stereotype.Service;
 
 @Service

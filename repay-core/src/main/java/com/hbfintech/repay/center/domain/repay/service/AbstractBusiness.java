@@ -2,8 +2,8 @@ package com.hbfintech.repay.center.domain.repay.service;
 
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
 import com.hbfintech.repay.center.domain.repay.object.Repayment;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Module;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.Module;
+import com.hbfintech.repay.center.domain.Validation;
 import lombok.Data;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;

@@ -3,9 +3,9 @@ package com.hbfintech.repay.center.domain.repay.service.factory;
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
 import com.hbfintech.repay.center.domain.repay.object.Repayment;
 import com.hbfintech.repay.center.domain.repay.service.AbstractValidation;
-import com.hbfintech.repay.center.domain.repay.service.strategy.Validation;
-import com.hbfintech.repay.center.infrastructure.annotation.Chain;
-import com.hbfintech.repay.center.infrastructure.annotation.Chains;
+import com.hbfintech.repay.center.domain.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.Chain;
+import com.hbfintech.repay.center.infrastructure.framework.Chains;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Component
 public class FintechDomainDefaultValidationFactory
         extends AbstractDomainChain<AbstractValidation> implements DomainFactory<Map<OperationType, Validation>> {
+
     @Override
     public Class<?> getChainClassType() {
         return FintechDomainDefaultValidationFactory.class;

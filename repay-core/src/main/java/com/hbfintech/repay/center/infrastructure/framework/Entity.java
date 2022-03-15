@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.annotation;
+package com.hbfintech.repay.center.infrastructure.framework;
 
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;

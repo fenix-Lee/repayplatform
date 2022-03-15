@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.object;
 
-import com.hbfintech.repay.center.domain.repay.service.strategy.Module;
-import com.hbfintech.repay.center.infrastructure.annotation.Indicator;
+import com.hbfintech.repay.center.infrastructure.framework.Module;
+import com.hbfintech.repay.center.infrastructure.framework.Indicator;
 import org.springframework.core.annotation.AnnotationUtils;
 
 public enum OperationType {

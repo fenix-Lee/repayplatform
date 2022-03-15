@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.domain.repay.service.strategy;
+package com.hbfintech.repay.center.domain;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.annotation;
+package com.hbfintech.repay.center.infrastructure.framework;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;

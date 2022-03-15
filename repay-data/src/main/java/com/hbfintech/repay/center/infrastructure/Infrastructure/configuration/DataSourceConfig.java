@@ -31,12 +31,12 @@ import java.util.Properties;
 
 @Configuration
 @Import({OptimisticPlugin.class, PageHelper.class})
-@MapperScan(basePackages = {"com.hbfintech.repay.center.core.**.dao", "com.zxhy.frame.**.dao"}, sqlSessionFactoryRef = "dataSqlSessionFactory0")
+@MapperScan(basePackages = {"com.hbfintech.repay.center.**", "com.zxhy.frame.**.dao"}, sqlSessionFactoryRef = "dataSqlSessionFactory")
 public class DataSourceConfig {
 
-    private OptimisticPlugin optimisticPlugin;
+    private final OptimisticPlugin optimisticPlugin;
 
-    private PageHelper pageHelper;
+    private final PageHelper pageHelper;
 
     private final static String MAPPER_LOCATION1 = "classpath*:com/hbfintech/**/mapper/**/*Mapper.xml";
     private final static String MAPPER_LOCATION2 = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";

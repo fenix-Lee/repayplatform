@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.annotation;
+package com.hbfintech.repay.center.infrastructure.framework;
 
 import org.springframework.stereotype.Component;
 
@@ -8,5 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface DataObject {
+public @interface Mappers {
+
+    Mapper[] value();
 }

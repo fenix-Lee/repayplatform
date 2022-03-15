@@ -1,10 +1,10 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
+import com.hbfintech.repay.center.domain.*;
 import com.hbfintech.repay.center.domain.repay.object.Repayment;
-import com.hbfintech.repay.center.domain.repay.service.Procedure;
-import com.hbfintech.repay.center.domain.repay.service.strategy.*;
-import com.hbfintech.repay.center.infrastructure.annotation.Chain;
-import com.hbfintech.repay.center.infrastructure.annotation.Chains;
+import com.hbfintech.repay.center.domain.repay.entity.Procedure;
+import com.hbfintech.repay.center.infrastructure.framework.Chain;
+import com.hbfintech.repay.center.infrastructure.framework.Chains;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

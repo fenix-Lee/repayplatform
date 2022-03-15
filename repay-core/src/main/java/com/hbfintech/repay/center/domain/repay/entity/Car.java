@@ -1,9 +1,9 @@
 package com.hbfintech.repay.center.domain.repay.entity;
 
-import com.hbfintech.repay.center.infrastructure.annotation.FieldMapping;
-import com.hbfintech.repay.center.infrastructure.annotation.Mapper;
-import com.hbfintech.repay.center.infrastructure.annotation.Mappers;
-import com.hbfintech.repay.center.infrastructure.annotation.Mappings;
+import com.hbfintech.repay.center.infrastructure.framework.FieldMapping;
+import com.hbfintech.repay.center.infrastructure.framework.Mapper;
+import com.hbfintech.repay.center.infrastructure.framework.Mappers;
+import com.hbfintech.repay.center.infrastructure.framework.Mappings;
 import lombok.Data;
 
 @Mappers(

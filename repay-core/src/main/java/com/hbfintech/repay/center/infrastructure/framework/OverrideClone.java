@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.annotation;
+package com.hbfintech.repay.center.infrastructure.framework;
 
 import java.lang.annotation.*;
 
@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Cloneable {
+public @interface OverrideClone {
 
     /**
      *
