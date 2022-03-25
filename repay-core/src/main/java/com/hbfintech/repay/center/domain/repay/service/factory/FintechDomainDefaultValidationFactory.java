@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
-import com.hbfintech.repay.center.domain.repay.object.Repayment;
 import com.hbfintech.repay.center.domain.repay.service.AbstractValidation;
 import com.hbfintech.repay.center.domain.Validation;
 import com.hbfintech.repay.center.infrastructure.framework.Chain;
@@ -61,8 +61,9 @@ public class FintechDomainDefaultValidationFactory
             extends AbstractValidation implements Validation {
 
         @Override
-        public boolean validate(Repayment repayment) {
-            return true;
+        public boolean validate(ModuleProposal proposal) {
+            proposal.reset(ModuleProposal.MODULE_SUCCESS_STATE);
+            return proposal.validateState();
         }
     }
 
@@ -73,7 +74,7 @@ public class FintechDomainDefaultValidationFactory
             extends AbstractValidation implements Validation {
 
         @Override
-        public boolean validate(Repayment repayment) {
+        public boolean validate(ModuleProposal proposal) {
             return true;
         }
     }
@@ -84,7 +85,7 @@ public class FintechDomainDefaultValidationFactory
     public static class DefaultRechargeValidation extends AbstractValidation implements Validation {
 
         @Override
-        public boolean validate(Repayment repayment) {
+        public boolean validate(ModuleProposal proposal) {
             return true;
         }
     }
@@ -96,7 +97,7 @@ public class FintechDomainDefaultValidationFactory
     public static class DefaultRepayValidation extends AbstractValidation implements Validation {
 
         @Override
-        public boolean validate(Repayment repayment) {
+        public boolean validate(ModuleProposal proposal) {
             return true;
         }
     }

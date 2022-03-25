@@ -7,6 +7,8 @@ import com.hbfintech.repay.center.domain.Validation;
 
 public interface Pipeline {
 
+    Pipeline exchange(OperationType one, OperationType another);
+
     Pipeline operationPoxy(OperationType operationType, Module operation);
 
     Pipeline validationPoxy(OperationType operationType, Validation validation);

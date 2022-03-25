@@ -1,8 +1,8 @@
 package com.hbfintech.repay.center.domain;
 
-import com.hbfintech.repay.center.domain.repay.object.Repayment;
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 
 public interface Business extends Cloneable{
 
-    void startTransaction(Repayment repayment);
+    void startTransaction(ModuleProposal proposal);
 }

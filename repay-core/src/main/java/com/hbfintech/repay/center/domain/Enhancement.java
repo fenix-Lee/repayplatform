@@ -1,10 +1,10 @@
 package com.hbfintech.repay.center.domain;
 
-import com.hbfintech.repay.center.domain.repay.object.Repayment;
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 
 public interface Enhancement {
 
-    void beforeOperation(Repayment repayment);
+    void before(ModuleProposal proposal);
 
-    void afterOperation(Repayment repayment);
+    void after(ModuleProposal proposal);
 }

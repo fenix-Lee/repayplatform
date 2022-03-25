@@ -1,6 +1,6 @@
 package com.hbfintech.repay.center.infrastructure.framework;
 
-import com.hbfintech.repay.center.domain.repay.object.Repayment;
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 
 /**
  *
@@ -10,5 +10,5 @@ import com.hbfintech.repay.center.domain.repay.object.Repayment;
 @FunctionalInterface
 public interface Module extends Cloneable {
 
-    void handle(Repayment repayment);
+    void handle(ModuleProposal proposal);
 }

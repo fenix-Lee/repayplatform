@@ -15,7 +15,7 @@
     <name>repay-core</name>
     <description>repay-core</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 <!--        <jdbc.groupId>mysql</jdbc.groupId>-->
 <!--        <jdbc.artifactId>mysql-connector-java</jdbc.artifactId>-->
 <!--        <jdbc.version>5.1.38</jdbc.version>-->
@@ -64,6 +64,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

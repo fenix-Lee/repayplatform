@@ -1,5 +1,6 @@
 package com.hbfintech.repay.center.domain.repay.entity;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
@@ -19,6 +20,7 @@ import com.hbfintech.repay.center.infrastructure.util.Pipeline;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,7 +40,9 @@ import java.util.Optional;
 public class RepayFlow extends Flow<Procedure, Operation>
         implements ObjectConverter<RepayFlow, ProductRepayFlowPO> {
 
-    // root
+    // id
+    private String serial;
+
     private Contract contract;
 
     public void init() {
@@ -82,6 +86,8 @@ public class RepayFlow extends Flow<Procedure, Operation>
 
         private final Map<OperationType, Operation> operationMap = Maps.newHashMap();
 
+        private final List<Pair<OperationType>> exchanges = Lists.newArrayList();
+
         private int filterModCount = 0;
 
         private final Flow<Procedure, Operation> hook;
@@ -93,6 +99,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
         @Override
         public void commit() {
             if (hook.getState().equals(State.UNDER)) {
+                hook.exchangeOperation(exchanges);
                 hook.updateValidation(validationMap);
                 hook.updateOperation(operationMap);
                 hook.setState(State.COMMIT);
@@ -100,9 +107,22 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
+        public Pipeline exchange(OperationType one, OperationType another) {
+            if (hook.getState().equals(State.UNDER)) {
+                Pair<OperationType> pair = new Pair<>(one, another);
+                exchanges.add(pair);
+            } else {
+                throw new RuntimeException("flow state is: " + hook.getState());
+            }
+            return this;
+        }
+
+        @Override
         public Pipeline operationPoxy(OperationType operationType, Module operation) {
             if (hook.getState().equals(State.UNDER)) {
                 operationMap.put(operationType, (Operation) operation);
+            } else {
+                throw new RuntimeException("flow state is: " + hook.getState());
             }
             return this;
         }
@@ -111,6 +131,8 @@ public class RepayFlow extends Flow<Procedure, Operation>
         public Pipeline validationPoxy(OperationType operationType, Validation validation) {
             if (hook.getState().equals(State.UNDER))
                 validationMap.put(operationType, validation);
+            else
+                throw new RuntimeException("flow state is: " + hook.getState());
             return this;
         }
 

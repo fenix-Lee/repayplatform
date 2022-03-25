@@ -8,6 +8,7 @@ import com.hbfintech.repay.center.domain.repay.entity.Contract;
 import com.hbfintech.repay.center.domain.Apply;
 import com.hbfintech.repay.center.domain.Filter;
 import com.hbfintech.repay.center.domain.Operation;
+import com.hbfintech.repay.center.domain.repay.object.Repayment;
 import com.hbfintech.repay.center.infrastructure.framework.Indicator;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
@@ -55,6 +56,7 @@ public class RepayInterface {
 //        flow.startTransaction(null);
         flow.setContract(contract);
         flow.transform()
+                .exchange(OperationType.APPLY, OperationType.REPAY)
                 .operationPoxy(OperationType.APPLY, (Apply) repayment -> System.out.println("apply proxy"))
                 .validationPoxy(OperationType.APPLY, repayment -> {System.out.println("validation proxy");
                         return true;})
@@ -62,7 +64,9 @@ public class RepayInterface {
                         OperationType.convert(o).equals(OperationType.RECHARGE))
                 .commit();
 
-        flow.startTransaction(null);
+        Repayment repayment = new Repayment();
+
+        flow.startTransaction(repayment);
         System.out.println(".....proxy done");
 
         Optional<Contract> optionalContract = flow.getOptionalContract();

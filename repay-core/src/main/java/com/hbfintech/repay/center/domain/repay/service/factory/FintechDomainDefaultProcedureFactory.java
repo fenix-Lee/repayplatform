@@ -1,6 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
 import com.hbfintech.repay.center.domain.*;
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.domain.repay.object.Repayment;
 import com.hbfintech.repay.center.domain.repay.entity.Procedure;
 import com.hbfintech.repay.center.infrastructure.framework.Chain;
@@ -33,7 +34,7 @@ public class FintechDomainDefaultProcedureFactory
     public static class DefaultApply implements Apply {
 
         @Override
-        public void handle(Repayment repayment) {
+        public void handle(ModuleProposal repayment) {
             System.out.println(".....apply.....");
         }
 
@@ -50,7 +51,7 @@ public class FintechDomainDefaultProcedureFactory
     public static class DefaultCalculation implements Calculation {
 
         @Override
-        public void handle(Repayment repayment) {
+        public void handle(ModuleProposal repayment) {
             System.out.println(".....calculation......");
         }
 
@@ -67,7 +68,7 @@ public class FintechDomainDefaultProcedureFactory
     public static class DefaultRecharge implements Recharge {
 
         @Override
-        public void handle(Repayment repayment) {
+        public void handle(ModuleProposal repayment) {
             System.out.println("....recharge.....");
         }
 
@@ -84,7 +85,7 @@ public class FintechDomainDefaultProcedureFactory
     public static class DefaultRepay implements Repay {
 
         @Override
-        public void handle(Repayment repayment) {
+        public void handle(ModuleProposal repayment) {
             System.out.println("......repay......");
         }
 
@@ -98,12 +99,15 @@ public class FintechDomainDefaultProcedureFactory
     public static class DefaultEnhancement implements Enhancement {
 
         @Override
-        public void beforeOperation(Repayment repayment) {
+        public void before(ModuleProposal proposal) {
             System.out.println(".....before.....");
         }
 
         @Override
-        public void afterOperation(Repayment repayment) {
+        public void after(ModuleProposal proposal) {
+            if (!proposal.validateState()) {
+                System.out.println("operation failed.....");
+            }
             System.out.println(".....after......");
         }
     }

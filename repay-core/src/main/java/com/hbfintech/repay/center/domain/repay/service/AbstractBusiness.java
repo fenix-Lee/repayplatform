@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.service;
 
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.domain.repay.object.OperationType;
-import com.hbfintech.repay.center.domain.repay.object.Repayment;
 import com.hbfintech.repay.center.infrastructure.framework.Module;
 import com.hbfintech.repay.center.domain.Validation;
 import lombok.Data;
@@ -26,15 +26,15 @@ public abstract class AbstractBusiness<T extends Module> implements Cloneable {
         return true;
     }
 
-    public void business(Map<OperationType, Validation> validationMap, Repayment repayment) {
+    public void business(Map<OperationType, Validation> validationMap, ModuleProposal proposal) {
         Validation validation;
 
         if (ObjectUtils
                 .isEmpty((validation=validationMap
                         .get(OperationType.convert(module)))))
-            module.handle(repayment);
-        else if (validation.validate(repayment))
-            module.handle(repayment);
+            module.handle(proposal);
+        else if (validation.validate(proposal))
+            module.handle(proposal);
     }
 
     @Override
