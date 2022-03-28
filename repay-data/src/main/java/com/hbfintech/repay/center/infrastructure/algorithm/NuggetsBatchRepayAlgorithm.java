@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.Infrastructure.algorithm;
+package com.hbfintech.repay.center.infrastructure.algorithm;
 
 import java.util.Collection;
 import java.util.Date;

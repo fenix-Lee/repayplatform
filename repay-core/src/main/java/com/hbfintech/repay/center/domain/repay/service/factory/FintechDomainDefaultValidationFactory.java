@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.AbstractValidation;
 import com.hbfintech.repay.center.domain.Validation;
 import com.hbfintech.repay.center.infrastructure.framework.Chain;
@@ -26,8 +26,7 @@ public class FintechDomainDefaultValidationFactory
     public Map<OperationType, Validation> fabricate() {
         return getModules().stream()
                 .collect(Collectors.toMap(AbstractValidation::getOperationType,
-                        m -> (Validation) m,
-                        (k1, k2) -> k1));
+                        m -> (Validation) m, (k1, k2) -> k1));
     }
 
     @Override
@@ -53,16 +52,14 @@ public class FintechDomainDefaultValidationFactory
         setModules(validations);
     }
 
-    @Chains(
-            @Chain(chain = FintechDomainDefaultValidationFactory.class, sequence = OperationType.Sequence.APPLY)
-    )
+    @Chain(chain = FintechDomainDefaultValidationFactory.class, sequence = OperationType.Sequence.APPLY)
     @Component
     public static class DefaultApplyValidation
             extends AbstractValidation implements Validation {
 
         @Override
         public boolean validate(ModuleProposal proposal) {
-            proposal.reset(ModuleProposal.MODULE_SUCCESS_STATE);
+            proposal.reset(ModuleProposal.FLOW_SUCCESS_STATE);
             return proposal.validateState();
         }
     }

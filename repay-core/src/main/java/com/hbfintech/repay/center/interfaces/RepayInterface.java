@@ -3,7 +3,7 @@ package com.hbfintech.repay.center.interfaces;
 import com.hbfintech.repay.center.domain.repay.entity.Car;
 import com.hbfintech.repay.center.domain.repay.entity.CarEntity;
 import com.hbfintech.repay.center.domain.repay.entity.RepayFlow;
-import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.domain.repay.entity.Contract;
 import com.hbfintech.repay.center.domain.Apply;
 import com.hbfintech.repay.center.domain.Filter;
@@ -56,15 +56,17 @@ public class RepayInterface {
 //        flow.startTransaction(null);
         flow.setContract(contract);
         flow.transform()
+                .beforeProxy(p -> System.out.println("change before"))
                 .exchange(OperationType.APPLY, OperationType.REPAY)
                 .operationPoxy(OperationType.APPLY, (Apply) repayment -> System.out.println("apply proxy"))
                 .validationPoxy(OperationType.APPLY, repayment -> {System.out.println("validation proxy");
                         return true;})
                 .filterPoxy((Filter<Operation>) (o) -> OperationType.convert(o).equals(OperationType.CALCULATION) ||
                         OperationType.convert(o).equals(OperationType.RECHARGE))
+                .afterProxy(p -> System.out.println("change after"))
                 .commit();
 
-        Repayment repayment = new Repayment();
+        Repayment repayment = Repayment.createRepayment();
 
         flow.startTransaction(repayment);
         System.out.println(".....proxy done");

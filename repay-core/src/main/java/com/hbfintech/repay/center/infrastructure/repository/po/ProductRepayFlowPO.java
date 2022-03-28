@@ -1,4 +1,8 @@
 package com.hbfintech.repay.center.infrastructure.repository.po;
 
-public class ProductRepayFlowPO {
+import lombok.Data;
+
+@Data
+public class ProductRepayFlowPO extends BasePO {
+
 }

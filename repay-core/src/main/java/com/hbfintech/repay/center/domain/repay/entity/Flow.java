@@ -1,9 +1,9 @@
 package com.hbfintech.repay.center.domain.repay.entity;
 
-import com.google.common.collect.Maps;
 import com.hbfintech.repay.center.domain.*;
+import com.hbfintech.repay.center.domain.EnhancementType;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import lombok.Data;
@@ -12,6 +12,9 @@ import org.springframework.util.ObjectUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+
 import static java.util.function.Predicate.not;
 
 @Data
@@ -21,7 +24,9 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
 
     private List<P> procedures;
 
-    private Map<OperationType, Validation> validationMap = Maps.newHashMap();
+    private Map<OperationType, Validation> validationMap;
+
+    private Map<EnhancementType, Consumer<ModuleProposal>> enhancementMap;
 
     private Filter<O> filter = (o) -> false;
 
@@ -43,6 +48,7 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
                             .takeWhile(not(m -> OperationType.convert(m).equals(one)))
                             .count();
 
+                    // not in procedure
                     if (oneIndex == procedures.size())
                         return;
 
@@ -51,6 +57,7 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
                             .takeWhile(not(m -> OperationType.convert(m).equals(another)))
                             .count();
 
+                    // not in procedure
                     if (anotherIndex == procedures.size())
                         return;
 
@@ -81,15 +88,24 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
             enhancement = BeanFactory
                     .acquireBean(FintechDomainDefaultProcedureFactory.DefaultEnhancement.class);
 
-        // before operation
-        enhancement.before(proposal);
+        Optional<Map<EnhancementType, Consumer<ModuleProposal>>> optionalEnhancement =
+                Optional.ofNullable(enhancementMap);
+
+        optionalEnhancement.map(e -> e.get(EnhancementType.BEFORE))
+                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.before(proposal));
+
+//        if (ObjectUtils.isEmpty(enhancementMap))
+//        // before operation
+//            enhancement.before(proposal);
 
         procedures.stream()
                 .filter(p -> !ObjectUtils.isEmpty(p.getModule()) && !filter.accept((O)p.getModule()))
                 .forEach(p -> p.business(validationMap, proposal));
 
         // after operation
-        enhancement.after(proposal);
+//        enhancement.after(proposal);
+        optionalEnhancement.map(e -> e.get(EnhancementType.AFTER))
+                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.after(proposal));
     }
 
     protected static class Pair<O> {

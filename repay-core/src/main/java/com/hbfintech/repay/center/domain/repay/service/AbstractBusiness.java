@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.service;
 
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.infrastructure.framework.Module;
 import com.hbfintech.repay.center.domain.Validation;
 import lombok.Data;
@@ -35,6 +35,8 @@ public abstract class AbstractBusiness<T extends Module> implements Cloneable {
             module.handle(proposal);
         else if (validation.validate(proposal))
             module.handle(proposal);
+        else
+            proposal.reset(ModuleProposal.FLOW_FAIL_STATE);
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.hbfintech.repay.center.domain.repay.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hbfintech.repay.center.domain.repay.object.OperationType;
+import com.hbfintech.repay.center.domain.EnhancementType;
+import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
+import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultValidationFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechFactory;
@@ -23,6 +25,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  *
@@ -66,8 +69,8 @@ public class RepayFlow extends Flow<Procedure, Operation>
     }
 
     @Override
-    public ProductRepayFlowPO transit(RepayFlow data) {
-        return BeanMapper.mapping(data, ProductRepayFlowPO.class);
+    public ProductRepayFlowPO transit() {
+        return BeanMapper.mapping(this, ProductRepayFlowPO.class);
     }
 
     public Optional<Contract> getOptionalContract() {
@@ -82,11 +85,14 @@ public class RepayFlow extends Flow<Procedure, Operation>
     }
 
     public static class RepayFlowStream implements Pipeline {
+
         private final Map<OperationType, Validation> validationMap = Maps.newHashMap();
 
         private final Map<OperationType, Operation> operationMap = Maps.newHashMap();
 
         private final List<Pair<OperationType>> exchanges = Lists.newArrayList();
+
+        private final Map<EnhancementType, Consumer<ModuleProposal>> enhancementMap = Maps.newHashMap();
 
         private int filterModCount = 0;
 
@@ -102,8 +108,19 @@ public class RepayFlow extends Flow<Procedure, Operation>
                 hook.exchangeOperation(exchanges);
                 hook.updateValidation(validationMap);
                 hook.updateOperation(operationMap);
+                hook.setEnhancementMap(enhancementMap);
                 hook.setState(State.COMMIT);
             }
+        }
+
+        @Override
+        public Pipeline beforeProxy(Consumer<ModuleProposal> beforeOperation) {
+            if (hook.getState().equals(State.UNDER)) {
+                enhancementMap.put(EnhancementType.BEFORE, beforeOperation);
+            } else {
+                throw new RuntimeException("flow state is: " + hook.getState());
+            }
+            return this;
         }
 
         @Override
@@ -147,5 +164,15 @@ public class RepayFlow extends Flow<Procedure, Operation>
             }
             return this;
          }
+
+        @Override
+        public Pipeline afterProxy(Consumer<ModuleProposal> afterOperation) {
+            if (hook.getState().equals(State.UNDER)) {
+                enhancementMap.put(EnhancementType.AFTER, afterOperation);
+            } else {
+                throw new RuntimeException("flow state is: " + hook.getState());
+            }
+            return this;
+        }
     }
 }

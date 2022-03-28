@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.domain.repay.object;
+package com.hbfintech.repay.center.domain;
 
 import com.hbfintech.repay.center.infrastructure.framework.Module;
 import com.hbfintech.repay.center.infrastructure.framework.Indicator;

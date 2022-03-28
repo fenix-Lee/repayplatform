@@ -2,9 +2,9 @@ package com.hbfintech.repay.center.domain.repay.object;
 
 public abstract class ModuleProposal {
 
-    public static final boolean MODULE_SUCCESS_STATE = Boolean.TRUE;
+    public static final boolean FLOW_SUCCESS_STATE = Boolean.TRUE;
 
-    public static final boolean MODULE_FAIL_STATE = Boolean.FALSE;
+    public static final boolean FLOW_FAIL_STATE = Boolean.FALSE;
 
     protected boolean moduleState;
 
@@ -15,4 +15,5 @@ public abstract class ModuleProposal {
     public void reset(boolean state) {
         moduleState = state;
     }
+
 }

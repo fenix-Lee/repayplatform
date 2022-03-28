@@ -1,4 +1,4 @@
-package com.hbfintech.repay.center.infrastructure.Infrastructure.configuration;
+package com.hbfintech.repay.center.infrastructure.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageHelper;
@@ -38,8 +38,8 @@ public class DataSourceConfig {
 
     private final PageHelper pageHelper;
 
-    private final static String MAPPER_LOCATION1 = "classpath*:com/hbfintech/**/mapper/**/*Mapper.xml";
-    private final static String MAPPER_LOCATION2 = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";
+    private final static String REPAYCENTER_MAPPER_LOCATION = "classpath*:mapper/**/*Mapper.xml";
+    private final static String FINTECH_MAPPER_LOCATION = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";
 
     @Autowired
     public DataSourceConfig(OptimisticPlugin optimisticPlugin, PageHelper pageHelper) {
@@ -97,8 +97,10 @@ public class DataSourceConfig {
 
         List<Resource> resourceList = new ArrayList<>();
 
-        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION1)));
-        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver().getResources(MAPPER_LOCATION2)));
+        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
+                .getResources(REPAYCENTER_MAPPER_LOCATION)));
+        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
+                .getResources(FINTECH_MAPPER_LOCATION)));
 
         Resource[] resources = new Resource[resourceList.size()];
         resources = resourceList.toArray(resources);
