@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public abstract class BaseRepository<D extends BaseDao<E>, E extends BasePO> {
 
-    private D entityDao;
+    protected D entityDao;
 
     protected void setDao(D dao) {
         this.entityDao = dao;

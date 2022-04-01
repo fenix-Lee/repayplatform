@@ -1,10 +1,10 @@
 package com.hbfintech.repay.center.infrastructure.util;
 
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.OperationType;
-import com.hbfintech.repay.center.domain.Filter;
+import com.hbfintech.repay.center.infrastructure.framework.OperationType;
+import com.hbfintech.repay.center.infrastructure.framework.Filter;
 import com.hbfintech.repay.center.infrastructure.framework.Module;
-import com.hbfintech.repay.center.domain.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.Validation;
 
 import java.util.function.Consumer;
 

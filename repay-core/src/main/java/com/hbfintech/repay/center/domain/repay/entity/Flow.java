@@ -1,9 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.entity;
 
-import com.hbfintech.repay.center.domain.*;
-import com.hbfintech.repay.center.domain.EnhancementType;
+import com.hbfintech.repay.center.infrastructure.framework.*;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import lombok.Data;
@@ -39,6 +37,8 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
     }
 
     protected void exchangeOperation(List<Pair<OperationType>> exchanges) {
+        if (ObjectUtils.isEmpty(exchanges))
+            return;
         exchanges.forEach(e -> {
                     OperationType one = e.one;
                     OperationType another = e.another;
@@ -66,15 +66,26 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
     }
 
     protected void updateValidation(Map<OperationType, Validation> updates) {
+        if (ObjectUtils.isEmpty(updates))
+            return;
         validationMap.putAll(updates);
     }
 
     protected void updateOperation(Map<OperationType, Operation> updates) {
+        if (ObjectUtils.isEmpty(updates))
+            return;
         procedures.forEach(p -> {
             OperationType type;
             if (updates.containsKey((type=OperationType.convert(p.getModule()))))
                 p.setModule((updates.get(type)));
         });
+    }
+
+    protected void updateEnhancement(Map<EnhancementType, Consumer<ModuleProposal>> enhancementMap) {
+        if (ObjectUtils.isEmpty(validationMap))
+            return;
+
+        setEnhancementMap(enhancementMap);
     }
 
     @Override
@@ -94,16 +105,10 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
         optionalEnhancement.map(e -> e.get(EnhancementType.BEFORE))
                 .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.before(proposal));
 
-//        if (ObjectUtils.isEmpty(enhancementMap))
-//        // before operation
-//            enhancement.before(proposal);
-
         procedures.stream()
                 .filter(p -> !ObjectUtils.isEmpty(p.getModule()) && !filter.accept((O)p.getModule()))
                 .forEach(p -> p.business(validationMap, proposal));
 
-        // after operation
-//        enhancement.after(proposal);
         optionalEnhancement.map(e -> e.get(EnhancementType.AFTER))
                 .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.after(proposal));
     }

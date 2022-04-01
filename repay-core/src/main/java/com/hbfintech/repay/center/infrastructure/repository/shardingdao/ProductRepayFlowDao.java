@@ -1,8 +1,9 @@
-package com.hbfintech.repay.center.infrastructure.repository.dao;
+package com.hbfintech.repay.center.infrastructure.repository.shardingdao;
 
 import com.hbfintech.repay.center.infrastructure.dao.BaseDao;
 import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
 public interface ProductRepayFlowDao extends BaseDao<ProductRepayFlowPO> {
 
     @Override
-    ProductRepayFlowPO select(Long id);
+    ProductRepayFlowPO select(@Param("id")Long id);
 
     @Override
     List<ProductRepayFlowPO> selectEntities(Map<String, Object> conditions);

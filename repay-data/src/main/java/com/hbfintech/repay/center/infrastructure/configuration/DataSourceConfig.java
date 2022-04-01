@@ -29,16 +29,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@Configuration
-@Import({OptimisticPlugin.class, PageHelper.class})
-@MapperScan(basePackages = {"com.hbfintech.repay.center.**", "com.zxhy.frame.**.dao"}, sqlSessionFactoryRef = "dataSqlSessionFactory")
+//@Configuration
+//@Import({OptimisticPlugin.class, PageHelper.class})
+//@MapperScan(basePackages = {"com.hbfintech.repay.center.**.dao", "com.zxhy.frame.**.dao"}, sqlSessionFactoryRef = "dataSqlSessionFactory")
 public class DataSourceConfig {
 
     private final OptimisticPlugin optimisticPlugin;
 
     private final PageHelper pageHelper;
 
-    private final static String REPAYCENTER_MAPPER_LOCATION = "classpath*:mapper/**/*Mapper.xml";
+    private final static String REPAY_CENTER_MAPPER_LOCATION = "classpath*:mapper/**/*Mapper.xml";
     private final static String FINTECH_MAPPER_LOCATION = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";
 
     @Autowired
@@ -47,17 +47,17 @@ public class DataSourceConfig {
         this.pageHelper = pageHelper;
     }
 
-    /**
-     * 返回data1数据库的数据源
-     *
-     * @return
-     */
-    @Bean(name = "database")
-    @ConfigurationProperties(prefix = "spring.shardingsphere.datasource.ds")
-    @Primary
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().type(DruidDataSource.class).build();
-    }
+//    /**
+//     * 返回data数据库的数据源
+//     *
+//     * @return
+//     */
+//    @Bean(name = "database")
+//    @ConfigurationProperties(prefix = "spring.shardingsphere.datasource.ds")
+//    @Primary
+//    public DataSource dataSource() {
+//        return DataSourceBuilder.create().type(DruidDataSource.class).build();
+//    }
 
     /**
      * 返回data1数据库的会话工厂
@@ -98,7 +98,7 @@ public class DataSourceConfig {
         List<Resource> resourceList = new ArrayList<>();
 
         resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
-                .getResources(REPAYCENTER_MAPPER_LOCATION)));
+                .getResources(REPAY_CENTER_MAPPER_LOCATION)));
         resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
                 .getResources(FINTECH_MAPPER_LOCATION)));
 

@@ -1,6 +1,6 @@
 package com.hbfintech.repay.center.domain.repay.service;
 
-import com.hbfintech.repay.center.domain.OperationType;
+import com.hbfintech.repay.center.infrastructure.framework.OperationType;
 
 public abstract class AbstractValidation implements Cloneable {
 

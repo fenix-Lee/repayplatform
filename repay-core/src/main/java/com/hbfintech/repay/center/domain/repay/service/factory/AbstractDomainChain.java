@@ -65,6 +65,11 @@ public abstract class AbstractDomainChain<T extends Cloneable>
             Chains chains = AnnotationUtils.findAnnotation(moduleClass, Chains.class);
             assert chains != null;
             Arrays.stream(chains.value()).forEach(c -> {
+                /*
+                 * cannot use Validated annotation for non-null check coz spring will enhance beans by CGlib
+                 * with that annotation so that orika cannot copy or map to other beans
+                 */
+                assert c.chain() != null;
                 if (c.chain().equals(chainClass)) {
                     if (container.containsKey(c.sequence()))
                         throw new RuntimeException("");
@@ -77,6 +82,7 @@ public abstract class AbstractDomainChain<T extends Cloneable>
         modulesWithChainMap.values().forEach(m -> {
             Chain chain = AnnotationUtils.findAnnotation(m.getClass(), Chain.class);
             assert chain != null;
+            assert chain.chain() != null;
             if (chain.chain().equals(chainClass)) {
                 if (container.containsKey(chain.sequence()))
                     throw new RuntimeException();

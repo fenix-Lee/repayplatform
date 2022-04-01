@@ -1,10 +1,15 @@
 package com.hbfintech.repay.center.infrastructure.util;
 
-public interface ObjectConverter<F, T> {
+public interface ObjectConverter<T> {
 
-    T transit ();
-
-    default F reverse (T data) {
+    default T transit () {
         return null;
     }
+
+    default void transit(T target) {}
+
+    /**
+     * save data in warehouse
+     */
+    default void save() {}
 }

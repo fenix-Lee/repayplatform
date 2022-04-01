@@ -1,9 +1,9 @@
 package com.hbfintech.repay.center.domain.repay.service.factory;
 
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.OperationType;
+import com.hbfintech.repay.center.infrastructure.framework.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.AbstractValidation;
-import com.hbfintech.repay.center.domain.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.Validation;
 import com.hbfintech.repay.center.infrastructure.framework.Chain;
 import com.hbfintech.repay.center.infrastructure.framework.Chains;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -38,9 +38,10 @@ public class FintechDomainDefaultValidationFactory
             Chains chains = AnnotationUtils.findAnnotation(v.getClass(), Chains.class);
             if (ObjectUtils.isEmpty(chains)) {
                 Chain chain = AnnotationUtils.findAnnotation(v.getClass(), Chain.class);
-                if (ObjectUtils.isEmpty(chain))
+                if (ObjectUtils.isEmpty(chain) || ObjectUtils.isEmpty(chain.chain()))
                     throw new RuntimeException("");
-                v.setOperationType(OperationType.convert(chain.sequence()));
+                if (chain.chain().equals(clazz))
+                    v.setOperationType(OperationType.convert(chain.sequence()));
                 return;
             }
 
@@ -52,7 +53,9 @@ public class FintechDomainDefaultValidationFactory
         setModules(validations);
     }
 
-    @Chain(chain = FintechDomainDefaultValidationFactory.class, sequence = OperationType.Sequence.APPLY)
+//    @Chains(
+            @Chain(chain = FintechDomainDefaultValidationFactory.class, sequence = OperationType.Sequence.APPLY)
+//    )
     @Component
     public static class DefaultApplyValidation
             extends AbstractValidation implements Validation {
@@ -95,6 +98,7 @@ public class FintechDomainDefaultValidationFactory
 
         @Override
         public boolean validate(ModuleProposal proposal) {
+            System.out.println("repay validation");
             return true;
         }
     }

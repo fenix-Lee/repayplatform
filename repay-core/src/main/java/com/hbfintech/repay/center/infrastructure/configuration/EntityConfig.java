@@ -1,6 +1,7 @@
 package com.hbfintech.repay.center.infrastructure.configuration;
 
 import com.hbfintech.repay.center.domain.repay.entity.RepayFlow;
+import com.hbfintech.repay.center.infrastructure.repository.RepayFlowRepository;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ public class EntityConfig {
 
     @Bean(initMethod = "init")
     @Primary
-    public RepayFlow getFlow() {
-        return new RepayFlow();
+    public RepayFlow getFlow(RepayFlowRepository repository) {
+        return new RepayFlow(repository);
     }
 }

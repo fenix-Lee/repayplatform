@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hbfintech.repay.center.infrastructure.repository.shardingdao.ProductRepayFlowDao">
+
+    <select id="select" resultType="com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO">
+        SELECT
+            repay_apply_id as 'id',
+            internal_order_num as 'serialNo'
+        FROM
+            product_repay_flow
+        WHERE
+            repay_apply_id = #{id}
+    </select>
+</mapper>

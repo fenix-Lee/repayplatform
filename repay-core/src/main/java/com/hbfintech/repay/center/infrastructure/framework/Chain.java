@@ -22,7 +22,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-@Validated
 @Inherited
 @Repeatable(Chains.class)
 public @interface Chain {
@@ -33,7 +32,6 @@ public @interface Chain {
      *
      * @return chain class
      */
-    @NotNull
     Class<?> chain();
 
     /*

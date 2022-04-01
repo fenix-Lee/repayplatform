@@ -1,7 +1,8 @@
 package com.hbfintech.repay.center.infrastructure.repository;
 
+
 import com.hbfintech.repay.center.infrastructure.annotation.Repository;
-import com.hbfintech.repay.center.infrastructure.repository.dao.ProductRepayFlowDao;
+import com.hbfintech.repay.center.infrastructure.repository.shardingdao.ProductRepayFlowDao;
 import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +21,7 @@ public class RepayFlowRepository extends
      * @param id primary key
      * @return repay flow
      */
-    public ProductRepayFlowPO searchRepayFlow(Long id) {
+    public ProductRepayFlowPO searchRepayFlow(long id) {
         return queryEntity(id);
     }
 
@@ -34,6 +35,10 @@ public class RepayFlowRepository extends
        Condition condition = Condition.createCondition()
                 .addParameter("serial", serial);
         return uniqueQueryWithCondition(condition.getParameters());
+    }
+
+    public int store(ProductRepayFlowPO productRepayFlowPO) {
+        return entityDao.insert(productRepayFlowPO);
     }
 
 }

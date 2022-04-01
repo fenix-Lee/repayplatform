@@ -2,18 +2,19 @@ package com.hbfintech.repay.center.domain.repay.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hbfintech.repay.center.domain.EnhancementType;
+import com.hbfintech.repay.center.infrastructure.framework.EnhancementType;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.domain.OperationType;
+import com.hbfintech.repay.center.infrastructure.framework.OperationType;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultValidationFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechFactory;
-import com.hbfintech.repay.center.domain.Filter;
+import com.hbfintech.repay.center.infrastructure.framework.Filter;
 import com.hbfintech.repay.center.infrastructure.framework.Module;
-import com.hbfintech.repay.center.domain.Operation;
-import com.hbfintech.repay.center.domain.Validation;
+import com.hbfintech.repay.center.infrastructure.framework.Operation;
+import com.hbfintech.repay.center.infrastructure.framework.Validation;
 import com.hbfintech.repay.center.infrastructure.framework.OverrideClone;
 import com.hbfintech.repay.center.infrastructure.framework.Entity;
+import com.hbfintech.repay.center.infrastructure.repository.RepayFlowRepository;
 import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
@@ -41,12 +42,18 @@ import java.util.function.Consumer;
 @Data
 @OverrideClone
 public class RepayFlow extends Flow<Procedure, Operation>
-        implements ObjectConverter<RepayFlow, ProductRepayFlowPO> {
+        implements ObjectConverter<ProductRepayFlowPO> {
 
     // id
     private String serial;
 
     private Contract contract;
+
+    private RepayFlowRepository repository;
+
+    public RepayFlow (RepayFlowRepository repository) {
+        this.repository = repository;
+    }
 
     public void init() {
         setProcedures(FintechFactory.INSTANCE
@@ -71,6 +78,11 @@ public class RepayFlow extends Flow<Procedure, Operation>
     @Override
     public ProductRepayFlowPO transit() {
         return BeanMapper.mapping(this, ProductRepayFlowPO.class);
+    }
+
+    @Override
+    public void save() {
+        repository.store(transit());
     }
 
     public Optional<Contract> getOptionalContract() {
@@ -108,7 +120,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
                 hook.exchangeOperation(exchanges);
                 hook.updateValidation(validationMap);
                 hook.updateOperation(operationMap);
-                hook.setEnhancementMap(enhancementMap);
+                hook.updateEnhancement(enhancementMap);
                 hook.setState(State.COMMIT);
             }
         }

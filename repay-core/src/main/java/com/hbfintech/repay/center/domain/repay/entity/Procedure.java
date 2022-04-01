@@ -1,7 +1,7 @@
 package com.hbfintech.repay.center.domain.repay.entity;
 
 import com.hbfintech.repay.center.domain.repay.service.AbstractBusiness;
-import com.hbfintech.repay.center.domain.Operation;
+import com.hbfintech.repay.center.infrastructure.framework.Operation;
 import com.hbfintech.repay.center.infrastructure.framework.OverrideClone;
 import com.hbfintech.repay.center.infrastructure.framework.Entity;
 import com.hbfintech.repay.center.infrastructure.util.BeanFactory;

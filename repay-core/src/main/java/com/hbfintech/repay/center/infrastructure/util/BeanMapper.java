@@ -36,6 +36,10 @@ public class BeanMapper {
         register(source, target, fieldMaps);
     }
 
+    public static<S, D> void mapping(S source, D target) {
+        mapperFactory.getMapperFacade().map(source, target);
+    }
+
     public static <S, D> D mapping(S source, Class<D> destClazz) {
         return mapperFactory.getMapperFacade()
                 .map(source, destClazz);

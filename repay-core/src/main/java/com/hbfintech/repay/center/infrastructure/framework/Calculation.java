@@ -1,6 +1,4 @@
-package com.hbfintech.repay.center.domain;
-
-import com.hbfintech.repay.center.infrastructure.framework.Indicator;
+package com.hbfintech.repay.center.infrastructure.framework;
 
 @Indicator(OperationType.Sequence.CALCULATION)
 public interface Calculation extends Operation {
