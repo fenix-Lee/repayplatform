@@ -7,38 +7,39 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
+@ConditionalOnMissingBean(name = "localDataSource")
 @Import({OptimisticPlugin.class,PageHelper.class})
-@MapperScan(basePackages = {"com.hbfintech.repay.center.**.shardingdao"}, sqlSessionFactoryRef = "dataSqlSessionFactory1")
+@MapperScan(basePackages = {"com.hbfintech.repay.center.**.shardingdao"}, sqlSessionFactoryRef = "shardingSqlSessionFactory")
 public class ShardingDataSourceConfig {
     private final static String SHARDING_MAPPER_LOCATION = "classpath*:shardingmapper/*Mapper.xml";
 
-    @Autowired
+    @Resource
     private OptimisticPlugin optimisticPlugin;
 
-    @Autowired
+    @Resource
     private PageHelper pageHelper;
 
-
     /**
-     * 返回data1数据库的会话工厂
+     * shardingSqlSessionFactory creator
      *
-     * @param ds
-     * @return
-     * @throws Exception
+     * @param ds datasource
+     * @return session factory
+     * @throws Exception exception
      */
-    @Bean(name = "dataSqlSessionFactory1")
+    @Bean(name = "shardingSqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(DataSource ds) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         Properties properties = new Properties();
@@ -57,23 +58,23 @@ public class ShardingDataSourceConfig {
     }
 
     /**
-     * 返回data1数据库的会话模板
+     * shardingSqlSessionTemplate creator
      *
-     * @param sessionFactory
-     * @return
+     * @param sessionFactory sql session factory
+     * @return session template
      */
-    @Bean(name = "dataSqlSessionTemplate1")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("dataSqlSessionFactory1") SqlSessionFactory sessionFactory) {
+    @Bean(name = "shardingSqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("shardingSqlSessionFactory") SqlSessionFactory sessionFactory) {
         return new SqlSessionTemplate(sessionFactory);
     }
 
     /**
-     * 返回data1数据库的事务
+     * shardingTransactionManager creator
      *
-     * @param ds
-     * @return
+     * @param ds datasource
+     * @return transaction manager
      */
-    @Bean(name = "dataTransactionManager1")
+    @Bean(name = "shardingTransactionManager")
     public DataSourceTransactionManager transactionManager(DataSource ds) {
         return new DataSourceTransactionManager(ds);
     }

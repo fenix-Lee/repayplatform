@@ -34,27 +34,26 @@ import java.util.Properties;
 //@MapperScan(basePackages = {"com.hbfintech.repay.center.**.dao", "com.zxhy.frame.**.dao"}, sqlSessionFactoryRef = "dataSqlSessionFactory")
 public class DataSourceConfig {
 
-    private final OptimisticPlugin optimisticPlugin;
+//    private final OptimisticPlugin optimisticPlugin;
+//
+//    private final PageHelper pageHelper;
+//
+//    private final static String REPAY_CENTER_MAPPER_LOCATION = "classpath*:mapper/**/*Mapper.xml";
+//    private final static String FINTECH_MAPPER_LOCATION = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";
+//
+//    @Autowired
+//    public DataSourceConfig(OptimisticPlugin optimisticPlugin, PageHelper pageHelper) {
+//        this.optimisticPlugin = optimisticPlugin;
+//        this.pageHelper = pageHelper;
+//    }
 
-    private final PageHelper pageHelper;
-
-    private final static String REPAY_CENTER_MAPPER_LOCATION = "classpath*:mapper/**/*Mapper.xml";
-    private final static String FINTECH_MAPPER_LOCATION = "classpath*:com/zxhy/frame/**/mapper/*Mapper.xml";
-
-    @Autowired
-    public DataSourceConfig(OptimisticPlugin optimisticPlugin, PageHelper pageHelper) {
-        this.optimisticPlugin = optimisticPlugin;
-        this.pageHelper = pageHelper;
-    }
-
-//    /**
-//     * 返回data数据库的数据源
-//     *
-//     * @return
-//     */
-//    @Bean(name = "database")
+    /**
+     * 返回data数据库的数据源
+     *
+     * @return
+     */
+//    @Bean(name = "ds")
 //    @ConfigurationProperties(prefix = "spring.shardingsphere.datasource.ds")
-//    @Primary
 //    public DataSource dataSource() {
 //        return DataSourceBuilder.create().type(DruidDataSource.class).build();
 //    }
@@ -66,47 +65,47 @@ public class DataSourceConfig {
      * @return
      * @throws Exception
      */
-    @Bean(name = "dataSqlSessionFactory")
-    @Primary
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("database") DataSource ds) throws Exception {
-        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
-        configuration.setUseGeneratedKeys(true);
-        configuration.setCacheEnabled(true);
-        configuration.setLazyLoadingEnabled(true);
-        configuration.setMultipleResultSetsEnabled(true);
-        configuration.setUseColumnLabel(true);
-        configuration.setDefaultExecutorType(ExecutorType.REUSE);
-        configuration.setDefaultStatementTimeout(25000);
-        configuration.setProxyFactory(new JavassistProxyFactory());
-        configuration.setLogImpl(Slf4jImpl.class);
-
-        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        Properties properties = new Properties();
-        properties.setProperty("dialect", "mysql");
-        properties.setProperty("offsetAsPageNum", "true");
-        properties.setProperty("rowBoundsWithCount", "true");
-        properties.setProperty("pageSizeZero", "true");
-        properties.setProperty("reasonable", "false");
-        properties.setProperty("supportMethodsArguments", "true");
-        properties.setProperty("returnPageInfo", "check");
-        pageHelper.setProperties(properties);
-        bean.setPlugins(new Interceptor[] {pageHelper} );
-        bean.setPlugins(new Interceptor[]{optimisticPlugin,pageHelper});
-        bean.setDataSource(ds);
-        bean.setConfiguration(configuration);
-
-        List<Resource> resourceList = new ArrayList<>();
-
-        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
-                .getResources(REPAY_CENTER_MAPPER_LOCATION)));
-        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
-                .getResources(FINTECH_MAPPER_LOCATION)));
-
-        Resource[] resources = new Resource[resourceList.size()];
-        resources = resourceList.toArray(resources);
-        bean.setMapperLocations(resources);
-        return bean.getObject();
-    }
+//    @Bean(name = "dataSqlSessionFactory")
+//    @Primary
+//    public SqlSessionFactory sqlSessionFactory(@Qualifier("database") DataSource ds) throws Exception {
+//        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+//        configuration.setUseGeneratedKeys(true);
+//        configuration.setCacheEnabled(true);
+//        configuration.setLazyLoadingEnabled(true);
+//        configuration.setMultipleResultSetsEnabled(true);
+//        configuration.setUseColumnLabel(true);
+//        configuration.setDefaultExecutorType(ExecutorType.REUSE);
+//        configuration.setDefaultStatementTimeout(25000);
+//        configuration.setProxyFactory(new JavassistProxyFactory());
+//        configuration.setLogImpl(Slf4jImpl.class);
+//
+//        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+//        Properties properties = new Properties();
+//        properties.setProperty("dialect", "mysql");
+//        properties.setProperty("offsetAsPageNum", "true");
+//        properties.setProperty("rowBoundsWithCount", "true");
+//        properties.setProperty("pageSizeZero", "true");
+//        properties.setProperty("reasonable", "false");
+//        properties.setProperty("supportMethodsArguments", "true");
+//        properties.setProperty("returnPageInfo", "check");
+//        pageHelper.setProperties(properties);
+//        bean.setPlugins(new Interceptor[] {pageHelper} );
+//        bean.setPlugins(new Interceptor[]{optimisticPlugin,pageHelper});
+//        bean.setDataSource(ds);
+//        bean.setConfiguration(configuration);
+//
+//        List<Resource> resourceList = new ArrayList<>();
+//
+//        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
+//                .getResources(REPAY_CENTER_MAPPER_LOCATION)));
+//        resourceList.addAll(Arrays.asList(new PathMatchingResourcePatternResolver()
+//                .getResources(FINTECH_MAPPER_LOCATION)));
+//
+//        Resource[] resources = new Resource[resourceList.size()];
+//        resources = resourceList.toArray(resources);
+//        bean.setMapperLocations(resources);
+//        return bean.getObject();
+//    }
 
     /**
      * 返回data1数据库的会话模板
@@ -114,11 +113,11 @@ public class DataSourceConfig {
      * @param sessionFactory
      * @return
      */
-    @Bean(name = "dataSqlSessionTemplate")
-    @Primary
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("dataSqlSessionFactory") SqlSessionFactory sessionFactory) {
-        return new SqlSessionTemplate(sessionFactory);
-    }
+//    @Bean(name = "dataSqlSessionTemplate")
+//    @Primary
+//    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("dataSqlSessionFactory") SqlSessionFactory sessionFactory) {
+//        return new SqlSessionTemplate(sessionFactory);
+//    }
 
     /**
      * 返回data1数据库的事务
@@ -126,9 +125,9 @@ public class DataSourceConfig {
      * @param ds
      * @return
      */
-    @Bean(name = "dataTransactionManager0")
-    @Primary
-    public DataSourceTransactionManager transactionManager(@Qualifier("database") DataSource ds) {
-        return new DataSourceTransactionManager(ds);
-    }
+//    @Bean(name = "dataTransactionManager0")
+//    @Primary
+//    public DataSourceTransactionManager transactionManager(@Qualifier("database") DataSource ds) {
+//        return new DataSourceTransactionManager(ds);
+//    }
 }

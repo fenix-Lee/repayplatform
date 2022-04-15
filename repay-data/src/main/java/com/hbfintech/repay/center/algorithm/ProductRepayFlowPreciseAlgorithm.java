@@ -17,6 +17,6 @@ public class ProductRepayFlowPreciseAlgorithm implements PreciseShardingAlgorith
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Date> shardingValue) {
         String index = Utility.formatDate(shardingValue.getValue(), Constants.YYYYMM);
-        return PRODUCT_REPAY_FLOW+index;
+        return PRODUCT_REPAY_FLOW + index;
     }
 }

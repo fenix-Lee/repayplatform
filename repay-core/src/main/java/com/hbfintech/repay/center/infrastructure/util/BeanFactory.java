@@ -5,9 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,31 +29,12 @@ public class BeanFactory implements ApplicationContextAware {
     }
 
     @SuppressWarnings("unchecked")
-    public static<T> T getObjectCopy(Class<T> clazz, String beanName) {
-        if (context.isTypeMatch(beanName, clazz))
-            return copyObject((T)acquireBean(beanName));
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
     public static<T> T copyObject(T source) {
         try {
             return (T)BeanMapper.mapping(source, source.getClass());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        try {
-//            return (T)source.getClass().getDeclaredConstructor().newInstance();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        }
         return null;
     }
 

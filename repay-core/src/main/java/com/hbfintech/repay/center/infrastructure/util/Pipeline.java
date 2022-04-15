@@ -14,7 +14,7 @@ public interface Pipeline {
 
     Pipeline exchange(OperationType one, OperationType another);
 
-    Pipeline operationPoxy(OperationType operationType, Module operation);
+    Pipeline modulePoxy(OperationType operationType, Module operation);
 
     Pipeline validationPoxy(OperationType operationType, Validation validation);
 

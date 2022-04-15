@@ -123,7 +123,23 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public RabbitAdmin transationalRabbitAdmin(RabbitTemplate transationalRabbitTemplate) {
+    public RabbitAdmin transactionalRabbitAdmin(RabbitTemplate transationalRabbitTemplate) {
         return new RabbitAdmin(transationalRabbitTemplate);
+    }
+
+    @Bean("rabbitAdmin")
+    public RabbitAdmin rabbitAdmin(@Autowired @Qualifier("normalConnection") ConnectionFactory connectionFactory)
+    {
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+        // 只有设置为 true，spring 才会加载 RabbitAdmin 这个类
+        rabbitAdmin.setAutoStartup(true);
+        return rabbitAdmin;
+    }
+
+    @Bean("rabbitNotifyTemplate")
+    public RabbitTemplate rabbitTemplate(@Qualifier("normalConnection") ConnectionFactory connectionFactory)
+    {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        return template;
     }
 }

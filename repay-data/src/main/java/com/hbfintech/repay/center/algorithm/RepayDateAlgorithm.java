@@ -30,33 +30,33 @@ public class RepayDateAlgorithm implements ComplexKeysShardingAlgorithm<Date> {
 
             }
 
-//            if (MapUtils.isNotEmpty(shardingValue.getColumnNameAndRangeValuesMap())) {
-//                Range range = shardingValue.getColumnNameAndRangeValuesMap().get("submeter_date");
-//                Date start = (Date) range.lowerEndpoint();
-//                Date end = (Date) range.upperEndpoint();
-//
-//                //默认-10天利于批扣日
-//                Date actStart = Utility.rollDateByDays(start, -10);
-//                Date actEnd = Utility.rollDateByDays(end, -10);
-//
-//                if (actStart.after(actEnd)) {
-//                    return availableTargetNames;
-//                }
-//
-//                String startDateStr = Utility.formatDate(actStart, Constants.YYYYMM);
-//                String endDateStr = Utility.formatDate(actEnd, Constants.YYYYMM);
-//
-//                Calendar startCalendar = Calendar.getInstance();
-//                startCalendar.setTime(actStart);
-//
-//                while (endDateStr.compareTo(startDateStr) >= 0) {
-//                    result.add(NUGGETS_BATCH_REPAY_EXPORT_DETAIL+startDateStr);
-//                    startCalendar.add(Calendar.MONTH, 1);
-//                    startDateStr = Utility.formatDate(startCalendar.getTime(), Constants.YYYYMM);
-//                }
-//
-//
-//            }
+            if (MapUtils.isNotEmpty(shardingValue.getColumnNameAndRangeValuesMap())) {
+                Range range = shardingValue.getColumnNameAndRangeValuesMap().get("submeter_date");
+                Date start = (Date) range.lowerEndpoint();
+                Date end = (Date) range.upperEndpoint();
+
+                //默认-10天利于批扣日
+                Date actStart = Utility.rollDateByDays(start, -10);
+                Date actEnd = Utility.rollDateByDays(end, -10);
+
+                if (actStart.after(actEnd)) {
+                    return availableTargetNames;
+                }
+
+                String startDateStr = Utility.formatDate(actStart, Constants.YYYYMM);
+                String endDateStr = Utility.formatDate(actEnd, Constants.YYYYMM);
+
+                Calendar startCalendar = Calendar.getInstance();
+                startCalendar.setTime(actStart);
+
+                while (endDateStr.compareTo(startDateStr) >= 0) {
+                    result.add(NUGGETS_BATCH_REPAY_EXPORT_DETAIL+startDateStr);
+                    startCalendar.add(Calendar.MONTH, 1);
+                    startDateStr = Utility.formatDate(startCalendar.getTime(), Constants.YYYYMM);
+                }
+
+
+            }
             return result;
     }
 }

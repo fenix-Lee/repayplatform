@@ -18,27 +18,25 @@ public abstract class BaseRepository<D extends BaseDao<E>, E extends BasePO> {
         this.entityDao = dao;
     }
 
-    protected E queryEntity(Long id) {
+    protected Optional<E> queryEntity(Long id) {
         return Optional.ofNullable(entityDao)
-                .map(d -> d.select(id))
-                .orElse(null);
+                .map(d -> d.select(id));
     }
 
-    protected E uniqueQueryWithCondition(Map<String, Object> condition) {
-        return Optional.ofNullable(queryWithCondition(condition))
-                .flatMap(l -> l.stream().findFirst())
-                .orElse(null);
+    protected Optional<E> uniqueQueryWithCondition(Map<String, Object> condition) {
+        return queryWithCondition(condition)
+                .filter(q -> q.size() == 1)
+                .flatMap(l -> l.stream().findFirst());
     }
 
-    protected List<E> queryWithCondition(Map<String, Object> condition) {
+    protected Optional<List<E>> queryWithCondition(Map<String, Object> condition) {
         return queryWithFilter(condition, (e) -> e.valid == 0);
     }
 
-    protected List<E> queryWithFilter(Map<String, Object> condition, Predicate<E> filter) {
+    protected Optional<List<E>> queryWithFilter(Map<String, Object> condition, Predicate<E> filter) {
         return Optional.ofNullable(entityDao)
                 .map(d -> d.selectEntities(condition).stream()
                         .filter(filter)
-                        .collect(Collectors.toList()))
-                .orElse(Collections.emptyList());
+                        .collect(Collectors.toList()));
     }
 }

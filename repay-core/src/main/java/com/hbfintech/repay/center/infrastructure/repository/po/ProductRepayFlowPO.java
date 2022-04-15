@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ProductRepayFlowPO extends BasePO implements ObjectConverter<RepayFlow> {
 
-    private long id;
+    private long applyId;
 
     private String serialNo;
 

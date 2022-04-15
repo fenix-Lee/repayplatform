@@ -17,6 +17,8 @@ spring:
     checkTemplateLocation: false
   profiles:
     active: mixed
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 management:
   server:
     port: 33890

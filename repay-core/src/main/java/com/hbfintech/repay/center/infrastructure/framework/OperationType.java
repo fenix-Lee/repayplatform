@@ -27,7 +27,8 @@ public enum OperationType {
 
     public static OperationType convert(Module operation) {
         assert operation != null;
-        Indicator indicator = AnnotationUtils.findAnnotation(operation.getClass(), Indicator.class);
+        Indicator indicator = AnnotationUtils
+                .findAnnotation(operation.getClass(), Indicator.class);
         assert indicator != null;
         return convert(indicator.value());
     }

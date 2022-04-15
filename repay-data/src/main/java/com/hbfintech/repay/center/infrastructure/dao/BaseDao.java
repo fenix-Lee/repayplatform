@@ -14,4 +14,8 @@ public interface BaseDao<P> {
     default int insert(P PlainObject) {return 0;}
 
     default int update(Map<String, Object> condition) {return 0;}
+
+    default int batchInsert(List<P> batch) {
+        return 0;
+    }
 }

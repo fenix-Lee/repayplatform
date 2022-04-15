@@ -15,11 +15,6 @@ public class BeanMapper {
 
     private static final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
-//    static {
-//        mapperFactory.getConverterFactory()
-//                .registerConverter(new CloneableConverter(RepayFlow.class, Procedure.class, Operation.class));
-//    }
-
     public void init() {
         mapperFactory.getConverterFactory()
                 .registerConverter(new CloneableConverter(BeanFactory.getCloneableClass()));

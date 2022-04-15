@@ -2,6 +2,7 @@ package com.hbfintech.repay.center.domain.repay.entity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.hbfintech.repay.center.domain.repay.service.factory.DomainFactory;
 import com.hbfintech.repay.center.infrastructure.framework.EnhancementType;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.infrastructure.framework.OperationType;
@@ -25,7 +26,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -68,6 +68,12 @@ public class RepayFlow extends Flow<Procedure, Operation>
         return BeanFactory.getObjectCopy(RepayFlow.class);
     }
 
+    public static RepayFlow createRepayFlow(DomainFactory<Procedure> factory) {
+        RepayFlow copy = createRepayFlow();
+        copy.setProcedures(factory.manufacture());
+        return copy;
+    }
+
     public RepayFlowStream transform() {
         if (getState().equals(State.UNDER))
             throw new RuntimeException("repay flow is on invalid state....");
@@ -83,10 +89,6 @@ public class RepayFlow extends Flow<Procedure, Operation>
     @Override
     public void save() {
         repository.store(transit());
-    }
-
-    public Optional<Contract> getOptionalContract() {
-        return Optional.ofNullable(contract);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
-        public Pipeline operationPoxy(OperationType operationType, Module operation) {
+        public Pipeline modulePoxy(OperationType operationType, Module operation) {
             if (hook.getState().equals(State.UNDER)) {
                 operationMap.put(operationType, (Operation) operation);
             } else {
