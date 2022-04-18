@@ -33,11 +33,11 @@ public class RepayInterface {
         Contract contract = Contract.create();
         contract.setContractIndex(34L);
         RepayFlow flow = RepayFlow.createRepayFlow(BeanFactory.acquireBean(FintechDomainDefaultProcedureFactory.class));
-        flow.startTransaction(null);
+//        flow.startTransaction(null);
         flow.setContract(contract);
         flow.transform()
                 .exchange(OperationType.APPLY, OperationType.REPAY)
-                .modulePoxy(OperationType.APPLY, (Apply) repayment -> System.out.println("apply proxy"))
+                .operationPoxy(OperationType.APPLY, (Apply) repayment -> System.out.println("apply proxy"))
                 .validationPoxy(OperationType.APPLY, repayment -> {System.out.println("apply validation proxy");
                         return true;})
                 .filterPoxy((Filter<Operation>) (o) -> OperationType.convert(o).equals(OperationType.CALCULATION) ||

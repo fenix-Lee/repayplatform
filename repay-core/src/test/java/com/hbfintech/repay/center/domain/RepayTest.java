@@ -13,7 +13,7 @@ public class RepayTest extends BaseTest {
     @Test
     public void test() {
         RepayFlowRepository repository = BeanFactory.acquireBean(RepayFlowRepository.class);
-//        Optional<ProductRepayFlowPO> po = repository.searchRepayFlow(1);
-//        Assert.assertEquals("568745896", po.map(ProductRepayFlowPO::getSerialNo).orElse("null"));
+        Optional<ProductRepayFlowPO> po = repository.searchRepayFlow(2);
+        Assert.assertFalse(po.isPresent());
     }
 }

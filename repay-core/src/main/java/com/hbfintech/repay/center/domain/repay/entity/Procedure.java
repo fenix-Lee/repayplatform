@@ -15,8 +15,11 @@ public class Procedure extends AbstractBusiness<Operation> {
     @Override
     public Procedure clone() throws CloneNotSupportedException {
         Procedure procedureCopy = (Procedure) super.clone();
-        if (makeAccessible(procedureCopy.getClass(), "module"))
+        if (makeAccessible(procedureCopy.getClass(), "module")) {
             procedureCopy.setModule(BeanFactory.copyObject(getModule()));
+        } else {
+            System.out.println("cannot setup modules.....");
+        }
         return procedureCopy;
     }
 }

@@ -95,6 +95,12 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
         if (state.equals(State.UNDER))
             throw new RuntimeException("flow is in invalid state to start transaction....");
 
+        if (ObjectUtils.isEmpty(proposal)) {
+            // log proposal
+            System.out.println("transaction end due to empty proposal....");
+            return;
+        }
+
         if (ObjectUtils.isEmpty(enhancement))
             enhancement = BeanFactory
                     .acquireBean(FintechDomainDefaultProcedureFactory.DefaultEnhancement.class);

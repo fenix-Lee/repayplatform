@@ -40,7 +40,7 @@ public class ShardingDataSourceConfig {
      * @throws Exception exception
      */
     @Bean(name = "shardingSqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(DataSource ds) throws Exception {
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("shardingDataSource") DataSource ds) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         Properties properties = new Properties();
         properties.setProperty("dialect", "mysql");

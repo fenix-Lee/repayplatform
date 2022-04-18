@@ -1,26 +1,17 @@
 package com.hbfintech.repay.center.infrastructure.util;
 
-import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
-import com.hbfintech.repay.center.infrastructure.framework.OperationType;
-import com.hbfintech.repay.center.infrastructure.framework.Filter;
-import com.hbfintech.repay.center.infrastructure.framework.Module;
-import com.hbfintech.repay.center.infrastructure.framework.Validation;
-
-import java.util.function.Consumer;
-
+/**
+ * The interface Pipeline is used for method-chain class, which is by multiple operations to change or modify inner
+ * fields or even methods
+ *
+ * @author Chang Su
+ * @since /13/3/2022
+ * @see java.util.stream.Stream
+ */
 public interface Pipeline {
 
-    Pipeline beforeProxy(Consumer<ModuleProposal> beforeOperation);
-
-    Pipeline exchange(OperationType one, OperationType another);
-
-    Pipeline modulePoxy(OperationType operationType, Module operation);
-
-    Pipeline validationPoxy(OperationType operationType, Validation validation);
-
-    <F> Pipeline filterPoxy(Filter<F> filter);
-
-    Pipeline afterProxy(Consumer<ModuleProposal> afterOperation);
-
+    /**
+     * must be committed in the end for all operations in pipeline
+     */
     void commit();
 }

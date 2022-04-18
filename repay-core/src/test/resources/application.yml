@@ -7,5 +7,5 @@ spring:
     name: localDataSource
 
   autoconfigure:
-    exclude: org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration
-
+    exclude:
+      - org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration

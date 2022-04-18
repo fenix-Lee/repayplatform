@@ -27,7 +27,7 @@ public class DataSourceConfig {
     @Resource
     private LocalProperties properties;
 
-    @Bean("localDataSource")
+    @Bean({"localDataSource", "shardingDataSource"})
     @Primary
     public DataSource getDataSource() {
         DruidDataSource ds = new DruidDataSource();

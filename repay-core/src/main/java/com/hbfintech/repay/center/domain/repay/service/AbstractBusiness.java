@@ -31,12 +31,13 @@ public abstract class AbstractBusiness<T extends Module> implements Cloneable {
 
         if (ObjectUtils
                 .isEmpty((validation=validationMap
-                        .get(OperationType.convert(module)))))
+                        .get(OperationType.convert(module))))) {
             module.handle(proposal);
-        else if (validation.validate(proposal))
+        } else if (validation.validate(proposal)) {
             module.handle(proposal);
-        else
+        } else {
             proposal.reset(ModuleProposal.FLOW_FAIL_STATE);
+        }
     }
 
     @Override

@@ -53,9 +53,9 @@ public class FintechDomainDefaultValidationFactory
         setModules(validations);
     }
 
-//    @Chains(
+    @Chains(
             @Chain(chain = FintechDomainDefaultValidationFactory.class, sequence = OperationType.Sequence.APPLY)
-//    )
+    )
     @Component
     public static class DefaultApplyValidation
             extends AbstractValidation implements Validation {

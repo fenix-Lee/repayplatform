@@ -9,4 +9,12 @@ public enum FintechFactory {
     public <T> T getFactoryInstance(Class<T> clazz) {
         return BeanFactory.acquireBean(clazz);
     }
+
+    public FintechDomainDefaultProcedureFactory getProcedureFactory() {
+        return getFactoryInstance(FintechDomainDefaultProcedureFactory.class);
+    }
+
+    public FintechDomainDefaultValidationFactory getValidationFactory() {
+        return getFactoryInstance(FintechDomainDefaultValidationFactory.class);
+    }
 }

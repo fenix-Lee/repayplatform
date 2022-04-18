@@ -6,21 +6,15 @@ import com.hbfintech.repay.center.domain.repay.service.factory.DomainFactory;
 import com.hbfintech.repay.center.infrastructure.framework.EnhancementType;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.infrastructure.framework.OperationType;
-import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultProcedureFactory;
-import com.hbfintech.repay.center.domain.repay.service.factory.FintechDomainDefaultValidationFactory;
 import com.hbfintech.repay.center.domain.repay.service.factory.FintechFactory;
 import com.hbfintech.repay.center.infrastructure.framework.Filter;
-import com.hbfintech.repay.center.infrastructure.framework.Module;
 import com.hbfintech.repay.center.infrastructure.framework.Operation;
 import com.hbfintech.repay.center.infrastructure.framework.Validation;
 import com.hbfintech.repay.center.infrastructure.framework.OverrideClone;
 import com.hbfintech.repay.center.infrastructure.framework.Entity;
 import com.hbfintech.repay.center.infrastructure.repository.RepayFlowRepository;
 import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
-import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
-import com.hbfintech.repay.center.infrastructure.util.BeanMapper;
-import com.hbfintech.repay.center.infrastructure.util.ObjectConverter;
-import com.hbfintech.repay.center.infrastructure.util.Pipeline;
+import com.hbfintech.repay.center.infrastructure.util.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,6 +23,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
+ * {@code  RepayFlow} controls the process of repayment in RepayCenter. This is the main entity for entire
+ * business service including offline-mode repayment.
+ *
+ * The key feature of this class is {@code RepayFlowStream}, which comes from the ideal of Stream API in
+ * Java 8, by using transform method.
  *
  * @author Chang Su
  * @since 4/03/2022
@@ -56,12 +55,8 @@ public class RepayFlow extends Flow<Procedure, Operation>
     }
 
     public void init() {
-        setProcedures(FintechFactory.INSTANCE
-                .getFactoryInstance(FintechDomainDefaultProcedureFactory.class)
-                .manufacture());
-        setValidationMap(FintechFactory.INSTANCE
-                .getFactoryInstance(FintechDomainDefaultValidationFactory.class)
-                .fabricate());
+        setProcedures(FintechFactory.INSTANCE.getProcedureFactory().manufacture());
+        setValidationMap(FintechFactory.INSTANCE.getValidationFactory().fabricate());
     }
 
     public static RepayFlow createRepayFlow() {
@@ -98,7 +93,12 @@ public class RepayFlow extends Flow<Procedure, Operation>
         return copy;
     }
 
-    public static class RepayFlowStream implements Pipeline {
+    /**
+     * New feature of transformation for validating, operating and exchanging modules by following methods
+     *
+     * need to commit in the end to close-cycle this stream
+     */
+    public static class RepayFlowStream implements RepayPipeline {
 
         private final Map<OperationType, Validation> validationMap = Maps.newHashMap();
 
@@ -116,6 +116,9 @@ public class RepayFlow extends Flow<Procedure, Operation>
             this.hook = outer;
         }
 
+        /*
+         * This is important and must be declared in the end of the stream
+         */
         @Override
         public void commit() {
             if (hook.getState().equals(State.UNDER)) {
@@ -128,7 +131,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
-        public Pipeline beforeProxy(Consumer<ModuleProposal> beforeOperation) {
+        public RepayPipeline beforeProxy(Consumer<ModuleProposal> beforeOperation) {
             if (hook.getState().equals(State.UNDER)) {
                 enhancementMap.put(EnhancementType.BEFORE, beforeOperation);
             } else {
@@ -138,7 +141,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
-        public Pipeline exchange(OperationType one, OperationType another) {
+        public RepayPipeline exchange(OperationType one, OperationType another) {
             if (hook.getState().equals(State.UNDER)) {
                 Pair<OperationType> pair = new Pair<>(one, another);
                 exchanges.add(pair);
@@ -149,9 +152,9 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
-        public Pipeline modulePoxy(OperationType operationType, Module operation) {
+        public RepayPipeline operationPoxy(OperationType operationType, Operation operation) {
             if (hook.getState().equals(State.UNDER)) {
-                operationMap.put(operationType, (Operation) operation);
+                operationMap.put(operationType, operation);
             } else {
                 throw new RuntimeException("flow state is: " + hook.getState());
             }
@@ -159,7 +162,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
         }
 
         @Override
-        public Pipeline validationPoxy(OperationType operationType, Validation validation) {
+        public RepayPipeline validationPoxy(OperationType operationType, Validation validation) {
             if (hook.getState().equals(State.UNDER))
                 validationMap.put(operationType, validation);
             else
@@ -169,7 +172,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
 
          @Override
          @SuppressWarnings("unchecked")
-         public <O> Pipeline filterPoxy(Filter<O> filter) {
+         public <O> RepayPipeline filterPoxy(Filter<O> filter) {
             if (hook.getState().equals(State.UNDER) && filterModCount == 0) {
                 hook.setFilter((Filter<Operation>) filter);
                 filterModCount ++;
@@ -180,7 +183,7 @@ public class RepayFlow extends Flow<Procedure, Operation>
          }
 
         @Override
-        public Pipeline afterProxy(Consumer<ModuleProposal> afterOperation) {
+        public RepayPipeline afterProxy(Consumer<ModuleProposal> afterOperation) {
             if (hook.getState().equals(State.UNDER)) {
                 enhancementMap.put(EnhancementType.AFTER, afterOperation);
             } else {
