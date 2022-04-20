@@ -6,7 +6,7 @@ public abstract class ModuleProposal {
 
     public static final boolean FLOW_FAIL_STATE = Boolean.FALSE;
 
-    protected boolean moduleState;
+    protected boolean moduleState = FLOW_SUCCESS_STATE;
 
     public boolean validateState() {
         return moduleState;

@@ -111,9 +111,10 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
         optionalEnhancement.map(e -> e.get(EnhancementType.BEFORE))
                 .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.before(proposal));
 
+        assert validationMap != null;
         procedures.stream()
                 .filter(p -> !ObjectUtils.isEmpty(p.getModule()) && !filter.accept((O)p.getModule()))
-                .forEach(p -> p.business(validationMap, proposal));
+                .forEach(p -> p.business(validationMap.get(OperationType.convert(p.getModule())), proposal));
 
         optionalEnhancement.map(e -> e.get(EnhancementType.AFTER))
                 .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.after(proposal));

@@ -18,8 +18,7 @@ public class Contract implements Cloneable {
     public static Contract create() {
         // query contract in repository
         // if nothing in flow table
-        Contract copy = BeanFactory.getObjectCopy(Contract.class);
-        return copy;
+        return BeanFactory.getObjectCopy(Contract.class);
     }
 
     @Override

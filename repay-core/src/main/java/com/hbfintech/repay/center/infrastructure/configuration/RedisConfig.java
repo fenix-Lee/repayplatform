@@ -22,7 +22,7 @@ public class RedisConfig {
         config.useSingleServer()
                 .setAddress(host)
                 .setPassword(properties.getPassword())
-                .setTimeout(properties.getTimeOut())
+                .setTimeout(properties.getTimeout())
                 .setConnectionMinimumIdleSize(properties.getMaxIdle())
                 .setConnectionPoolSize(properties.getMaxActive())
                 .setDatabase(properties.getDatabase());

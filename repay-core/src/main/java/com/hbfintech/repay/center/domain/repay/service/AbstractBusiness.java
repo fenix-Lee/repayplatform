@@ -5,7 +5,6 @@ import com.hbfintech.repay.center.infrastructure.framework.OperationType;
 import com.hbfintech.repay.center.infrastructure.framework.Module;
 import com.hbfintech.repay.center.infrastructure.framework.Validation;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.util.Map;
@@ -20,25 +19,13 @@ public abstract class AbstractBusiness<T extends Module> implements Cloneable {
             ReflectionUtils.makeAccessible(clazz.getDeclaredField(fieldName));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
-            System.out.println("");
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
     }
 
-    public void business(Map<OperationType, Validation> validationMap, ModuleProposal proposal) {
-        Validation validation;
-
-        if (ObjectUtils
-                .isEmpty((validation=validationMap
-                        .get(OperationType.convert(module))))) {
-            module.handle(proposal);
-        } else if (validation.validate(proposal)) {
-            module.handle(proposal);
-        } else {
-            proposal.reset(ModuleProposal.FLOW_FAIL_STATE);
-        }
-    }
+    public abstract void business(Validation validation, ModuleProposal proposal);
 
     @Override
     @SuppressWarnings("unchecked")

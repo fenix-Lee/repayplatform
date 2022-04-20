@@ -20,15 +20,15 @@ public class RedisProperties {
     @Value("${spring.redis.port}")
     private int port;
 
-    @Value("${spring.redis.pool.max-idle}")
+    @Value("${spring.redis.lettuce.pool.max-idle}")
     private int maxIdle;
 
-    @Value("${spring.redis.pool.min-idle}")
+    @Value("${spring.redis.lettuce.pool.min-idle}")
     private int minIdle;
 
-    @Value("${spring.redis.pool.max-active}")
+    @Value("${spring.redis.lettuce.pool.max-active}")
     private int maxActive;
 
     @Value("${spring.redis.timeout}")
-    private int timeOut;
+    private int timeout;
 }

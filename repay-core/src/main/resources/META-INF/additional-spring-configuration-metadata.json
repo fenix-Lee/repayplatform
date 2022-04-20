@@ -1,0 +1,25 @@
+{
+  "properties": [
+    {
+      "name": "app.id",
+      "description": "apollo application id."
+    },
+    {
+      "name": "apollo.bootstrap.enabled",
+      "type": "java.lang.Boolean",
+      "description": "whether apollo client is enabled."
+    },
+    {
+      "name": "apollo.bootstrap.namespaces",
+      "description": "enable which namespaces are loaded in application."
+    },
+    {
+      "name": "apollo.bootstrap.eagerLoad.enabled",
+      "description": "enable which namespaces are loaded in application."
+    },
+    {
+      "name": "management.metrics.tags.application",
+      "description": "metrics tag."
+    }
+  ]
+}

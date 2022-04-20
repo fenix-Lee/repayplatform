@@ -11,6 +11,12 @@ server:
 spring:
   application:
     name: fintech-repayCenter-ms
+  redis:
+    lettuce:
+      pool:
+        max-idle: 8
+        min-idle: 1
+        max-active: 8
   main:
     allow-bean-definition-overriding: true
   freemarker:

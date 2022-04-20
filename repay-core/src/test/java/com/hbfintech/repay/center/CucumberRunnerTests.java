@@ -13,8 +13,8 @@ import org.springframework.test.context.TestPropertySource;
 @Suite.SuiteClasses({FlowTest.class, RepayTest.class})
 //@CucumberOptions(
 //        features = "classpath:feature/",
-//        glue = "classpath:com.hbfintech.repay.center.step"
+//        glue = "com.hbfintech.gauss.step"
 //)
-@TestPropertySource(locations = "classpath:application.yml")
+//@TestPropertySource(locations = "classpath:application.yml")
 public class CucumberRunnerTests {
 }

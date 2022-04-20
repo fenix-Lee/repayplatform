@@ -102,8 +102,8 @@ public class FintechDomainDefaultProcedureFactory
 
         @Override
         public void after(ModuleProposal proposal) {
-            if (!proposal.validateState()) {
-                System.out.println("operation failed.....");
+            if (proposal.validateState()) {
+                System.out.println("operation success.....");
             }
             System.out.println(".....after......");
         }
