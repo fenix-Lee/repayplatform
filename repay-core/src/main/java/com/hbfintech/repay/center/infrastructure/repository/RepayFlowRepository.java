@@ -64,7 +64,7 @@ public class RepayFlowRepository extends
     }
 
     public int store(ProductRepayFlowPO productRepayFlowPO) {
-        return entityDao.insert(productRepayFlowPO);
+        return insert(productRepayFlowPO);
     }
 
 }

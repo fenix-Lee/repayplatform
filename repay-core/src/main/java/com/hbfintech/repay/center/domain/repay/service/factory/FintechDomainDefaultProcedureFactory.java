@@ -3,9 +3,14 @@ package com.hbfintech.repay.center.domain.repay.service.factory;
 import com.hbfintech.repay.center.domain.repay.object.ModuleProposal;
 import com.hbfintech.repay.center.domain.repay.entity.Procedure;
 import com.hbfintech.repay.center.infrastructure.framework.*;
+import com.hbfintech.repay.center.infrastructure.repository.RepayFlowRepository;
+import com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO;
+import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,6 +38,7 @@ public class FintechDomainDefaultProcedureFactory
         @Override
         public void handle(ModuleProposal repayment) {
             System.out.println(".....apply.....");
+
         }
 
         @Override
@@ -84,6 +90,10 @@ public class FintechDomainDefaultProcedureFactory
         @Override
         public void handle(ModuleProposal repayment) {
             System.out.println("......repay......");
+            RepayFlowRepository repository = BeanFactory.acquireBean(RepayFlowRepository.class);
+            Optional<ProductRepayFlowPO> po = repository.searchRepayFlow(2);
+            if (po.isPresent())
+                System.out.println("repay successfully");
         }
 
         @Override

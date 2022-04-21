@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 
 /**
  * {@code  RepayFlow} controls the process of repayment in RepayCenter. This is the main entity for entire
- * business service including offline-mode repayment.
+ * business service.
  *
  * The key feature of this class is {@code RepayFlowStream}, which comes from the ideal of Stream API in
  * Java 8, by using transform method.
@@ -44,7 +44,9 @@ public class RepayFlow extends Flow<Procedure, Operation>
         implements ObjectConverter<ProductRepayFlowPO> {
 
     // id
-    private String serial;
+    private String serialNo;
+
+    private long applyId;
 
     private Contract contract;
 
@@ -163,10 +165,11 @@ public class RepayFlow extends Flow<Procedure, Operation>
 
         @Override
         public RepayPipeline validationPoxy(OperationType operationType, Validation validation) {
-            if (hook.getState().equals(State.UNDER))
+            if (hook.getState().equals(State.UNDER)) {
                 validationMap.put(operationType, validation);
-            else
+            } else {
                 throw new RuntimeException("flow state is: " + hook.getState());
+            }
             return this;
         }
 

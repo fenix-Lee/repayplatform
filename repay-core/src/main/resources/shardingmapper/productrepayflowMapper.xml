@@ -29,4 +29,9 @@
           AND
             create_time <![CDATA[<=]]> #{create_time,jdbcType=DATE}
     </select>
+
+    <insert id="insert" parameterType="com.hbfintech.repay.center.infrastructure.repository.po.ProductRepayFlowPO">
+        INSERT INTO product_repay_flow (repay_apply_id, internal_order_num, create_time)
+        VALUES (#{applyId,jdbcType=BIGINT},#{serialNo,jdbcType=VARCHAR},now())
+    </insert>
 </mapper>

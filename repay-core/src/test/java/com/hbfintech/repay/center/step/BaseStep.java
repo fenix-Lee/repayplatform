@@ -1,7 +1,5 @@
 package com.hbfintech.repay.center.step;
 
-import com.hbfintech.repay.center.infrastructure.repository.RepayFlowRepository;
-import com.hbfintech.repay.center.infrastructure.util.BeanFactory;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

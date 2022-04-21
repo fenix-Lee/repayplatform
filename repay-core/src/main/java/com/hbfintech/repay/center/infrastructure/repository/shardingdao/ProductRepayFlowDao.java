@@ -20,5 +20,5 @@ public interface ProductRepayFlowDao extends BaseDao<ProductRepayFlowPO> {
     List<ProductRepayFlowPO> selectEntities(Map<String, Object> conditions);
 
     @Override
-    int insert(ProductRepayFlowPO PlainObject);
+    int insert(ProductRepayFlowPO po);
 }

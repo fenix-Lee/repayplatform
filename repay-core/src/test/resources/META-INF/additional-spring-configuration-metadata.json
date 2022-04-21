@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "repayCenter.url",
+      "description": "repay center url."
+    },
+    {
+      "name": "pigeon.client.host",
+      "description": "pigeon host."
+    },
+    {
+      "name": "pigeon.client.appId",
+      "description": "pigeon app id."
+    }
+  ]
+}

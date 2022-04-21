@@ -39,4 +39,8 @@ public abstract class BaseRepository<D extends BaseDao<E>, E extends BasePO> {
                         .filter(filter)
                         .collect(Collectors.toList()));
     }
+
+    protected int insert(E po) {
+        return entityDao.insert(po);
+    }
 }
