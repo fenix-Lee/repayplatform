@@ -2,7 +2,6 @@ package com.hbfintech.repay.center.infrastructure.repository;
 
 import com.hbfintech.repay.center.infrastructure.dao.BaseDao;
 import com.hbfintech.repay.center.infrastructure.repository.po.BasePO;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -47,25 +46,5 @@ public abstract class BaseRepository<D extends BaseDao<E>, E extends BasePO> {
 
     protected int insert(E po) {
         return entityDao.insert(po);
-    }
-
-    private static class Sigma {
-
-        private int value;
-
-        private static final Sigma INSTANCE = new Sigma();
-
-        public static Sigma init() {
-            return INSTANCE;
-        }
-
-        public int setAndGet(int value) {
-            this.value = value;
-            return value;
-        }
-
-        public int getValue() {
-            return value;
-        }
     }
 }

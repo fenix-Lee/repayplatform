@@ -29,6 +29,6 @@ public class RepayTest {
     public void test() {
         RepayFlowRepository repository = BeanFactory.acquireBean(RepayFlowRepository.class);
         Optional<ProductRepayFlowPO> po = repository.searchRepayFlow(2);
-        Assert.assertFalse(po.isEmpty());
+        Assert.assertFalse(po.isPresent());
     }
 }

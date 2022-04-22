@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import static java.util.function.Predicate.not;
-
 @Data
 public class Flow<P extends Procedure, O extends Operation> implements Business {
 
@@ -39,30 +37,32 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
     protected void exchangeOperation(List<Pair<OperationType>> exchanges) {
         if (ObjectUtils.isEmpty(exchanges))
             return;
-        exchanges.forEach(e -> {
-                    OperationType one = e.one;
-                    OperationType another = e.another;
 
-                    int oneIndex = (int) procedures.stream()
-                            .map(Procedure::getModule)
-                            .takeWhile(not(m -> OperationType.convert(m).equals(one)))
-                            .count();
-
-                    // not in procedure
-                    if (oneIndex == procedures.size())
-                        return;
-
-                    int anotherIndex = (int) procedures.stream()
-                            .map(Procedure::getModule)
-                            .takeWhile(not(m -> OperationType.convert(m).equals(another)))
-                            .count();
-
-                    // not in procedure
-                    if (anotherIndex == procedures.size())
-                        return;
-
-                    Collections.swap(procedures, oneIndex, anotherIndex);
-                });
+        // only jdk 11 can compile following code
+//        exchanges.forEach(e -> {
+//                    OperationType one = e.one;
+//                    OperationType another = e.another;
+//
+//                    int oneIndex = (int) procedures.stream()
+//                            .map(Procedure::getModule)
+//                            .takeWhile(not(m -> OperationType.convert(m).equals(one)))
+//                            .count();
+//
+//                    // not in procedure
+//                    if (oneIndex == procedures.size())
+//                        return;
+//
+//                    int anotherIndex = (int) procedures.stream()
+//                            .map(Procedure::getModule)
+//                            .takeWhile(not(m -> OperationType.convert(m).equals(another)))
+//                            .count();
+//
+//                    // not in procedure
+//                    if (anotherIndex == procedures.size())
+//                        return;
+//
+//                    Collections.swap(procedures, oneIndex, anotherIndex);
+//                });
     }
 
     protected void updateValidation(Map<OperationType, Validation> updates) {
@@ -108,16 +108,18 @@ public class Flow<P extends Procedure, O extends Operation> implements Business 
         Optional<Map<EnhancementType, Consumer<ModuleProposal>>> optionalEnhancement =
                 Optional.ofNullable(enhancementMap);
 
-        optionalEnhancement.map(e -> e.get(EnhancementType.BEFORE))
-                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.before(proposal));
+        // only jdk 11 can compile following code
+//        optionalEnhancement.map(e -> e.get(EnhancementType.BEFORE))
+//                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.before(proposal));
 
         assert validationMap != null;
         procedures.stream()
                 .filter(p -> !ObjectUtils.isEmpty(p.getModule()) && !filter.accept((O)p.getModule()))
                 .forEach(p -> p.business(validationMap.get(OperationType.convert(p.getModule())), proposal));
 
-        optionalEnhancement.map(e -> e.get(EnhancementType.AFTER))
-                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.after(proposal));
+        // only jdk 11 can compile following code
+//        optionalEnhancement.map(e -> e.get(EnhancementType.AFTER))
+//                .ifPresentOrElse(c -> c.accept(proposal), () -> enhancement.after(proposal));
     }
 
     protected static class Pair<O> {
