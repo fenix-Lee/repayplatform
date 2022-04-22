@@ -45,8 +45,7 @@ public class FintechDomainService {
                     if (index < 1) {
                         repayment.reset(ModuleProposal.FLOW_FAIL_STATE);
                     }
-                })
-                .validationPoxy(OperationType.APPLY, repayment -> {System.out.println("apply validation proxy");
+                }).validationPoxy(OperationType.APPLY, repayment -> {System.out.println("apply validation proxy");
                     return true;})
                 .filterPoxy((Filter<Operation>) (o) -> OperationType.convert(o).equals(OperationType.CALCULATION) ||
                         OperationType.convert(o).equals(OperationType.RECHARGE))

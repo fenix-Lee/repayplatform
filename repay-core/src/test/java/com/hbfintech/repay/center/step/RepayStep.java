@@ -38,8 +38,7 @@ public class RepayStep {
             BasePO base = (BasePO) getInstance(clazz);
             for (int j = 0; j < columNames.size(); j++) {
                 assert base != null;
-                ReflectionTestUtils.invokeSetterMethod(base,
-                        columNames.get(j),
+                ReflectionTestUtils.invokeSetterMethod(base, columNames.get(j),
                         getValue(clazz, columNames.get(j), data.get(j)));
             }
             ReflectionTestUtils.invokeMethod(repository, "insert", base);
@@ -86,6 +85,7 @@ public class RepayStep {
             return value;
         }
 
+        // another converter e.g. java.util.Date .....
         return clazz.getDeclaredConstructor(String.class).newInstance(value);
     }
 }

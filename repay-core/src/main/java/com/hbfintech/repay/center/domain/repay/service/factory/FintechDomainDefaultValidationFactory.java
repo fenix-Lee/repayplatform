@@ -26,7 +26,7 @@ public class FintechDomainDefaultValidationFactory
     public Map<OperationType, Validation> fabricate() {
         return getModules().stream()
                 .collect(Collectors.toMap(AbstractValidation::getOperationType,
-                        m -> (Validation) m, (k1, k2) -> k1, LinkedHashMap::new));
+                        m -> (Validation) m, (k1, k2) -> k1));
     }
 
     @Override
