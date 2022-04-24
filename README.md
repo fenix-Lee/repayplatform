@@ -26,4 +26,19 @@ BDD全称是Behavior Driven Development的首字母缩写
   更重要的是，这个测试用例只有开发跟测试才能看懂，第三方要想看懂就必须去学习Java。要是选用别的方式，开发人员就需要增加成本让本地工程兼容此方法
   并顺利执行起来。在这个背景下，BDD应运而生, 用人的自然语言架起开发和测试的桥梁同时大大降低第三方人员学习的成本。
 
+```gherkin
+Feature: Guess the word
+
+  # The first example has two steps
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+
+  # The second example has three steps
+  Scenario: Breaker joins a game
+    Given the Maker has started a game with the word "silky"
+    When the Breaker joins the Maker's game
+    Then the Breaker must guess a word with 5 characters
+```
+
 - 从技术角度来说，BDD是Junit的一种上层封装，底层是通过语言匹配到对应的编程语言方法上然后执行(行为描述支持多国语言同时也支持多种编程语言衔接)
